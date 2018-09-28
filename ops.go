@@ -10,16 +10,16 @@ func Add(a Value, b Value) (r Value) {
 	case v_int:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(int64) + b.v.(int64))
+			r = V(a.V.(int64) + b.V.(int64))
 		case v_float:
-			r = V(float64(a.v.(int64)) + b.v.(float64))
+			r = V(float64(a.V.(int64)) + b.V.(float64))
 		}
 	case v_float:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(float64) + float64(b.v.(int64)))
+			r = V(a.V.(float64) + float64(b.V.(int64)))
 		case v_float:
-			r = V(a.v.(float64) + b.v.(float64))
+			r = V(a.V.(float64) + b.V.(float64))
 		}
 	}
 
@@ -36,16 +36,16 @@ func Sub(a Value, b Value) (r Value) {
 	case v_int:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(int64) - b.v.(int64))
+			r = V(a.V.(int64) - b.V.(int64))
 		case v_float:
-			r = V(float64(a.v.(int64)) - b.v.(float64))
+			r = V(float64(a.V.(int64)) - b.V.(float64))
 		}
 	case v_float:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(float64) - float64(b.v.(int64)))
+			r = V(a.V.(float64) - float64(b.V.(int64)))
 		case v_float:
-			r = V(a.v.(float64) - b.v.(float64))
+			r = V(a.V.(float64) - b.V.(float64))
 		}
 	}
 
@@ -63,16 +63,16 @@ func Mul(a Value, b Value) (r Value) {
 	case v_int:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(int64) * b.v.(int64))
+			r = V(a.V.(int64) * b.V.(int64))
 		case v_float:
-			r = V(float64(a.v.(int64)) * b.v.(float64))
+			r = V(float64(a.V.(int64)) * b.V.(float64))
 		}
 	case v_float:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(float64) * float64(b.v.(int64)))
+			r = V(a.V.(float64) * float64(b.V.(int64)))
 		case v_float:
-			r = V(a.v.(float64) * b.v.(float64))
+			r = V(a.V.(float64) * b.V.(float64))
 		}
 	}
 
@@ -86,11 +86,11 @@ func Div(a Value, b Value) (r Value) {
 		panic("Unsupported operands")
 	}
 
-	if b.t == v_int && b.v.(int64) == 0 {
+	if b.t == v_int && b.V.(int64) == 0 {
 		panic("Divide by zero")
 	}
 
-	if b.t == v_float && floatEquals(b.v.(float64), 0) {
+	if b.t == v_float && floatEquals(b.V.(float64), 0) {
 		panic("Divide by zero")
 	}
 
@@ -98,16 +98,16 @@ func Div(a Value, b Value) (r Value) {
 	case v_int:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(int64) / b.v.(int64))
+			r = V(a.V.(int64) / b.V.(int64))
 		case v_float:
-			r = V(float64(a.v.(int64)) / b.v.(float64))
+			r = V(float64(a.V.(int64)) / b.V.(float64))
 		}
 	case v_float:
 		switch b.t {
 		case v_int:
-			r = V(a.v.(float64) / float64(b.v.(int64)))
+			r = V(a.V.(float64) / float64(b.V.(int64)))
 		case v_float:
-			r = V(a.v.(float64) / b.v.(float64))
+			r = V(a.V.(float64) / b.V.(float64))
 		}
 	}
 
@@ -121,10 +121,10 @@ func Eq(a Value, b Value) Value {
 	}
 
 	if a.t == v_float {
-		return V(floatEquals(a.v.(float64), b.v.(float64)))
+		return V(floatEquals(a.V.(float64), b.V.(float64)))
 	}
 
-	return V(a.v == b.v)
+	return V(a.V == b.V)
 }
 
 // Gt checks a > b
@@ -134,21 +134,21 @@ func Gt(a Value, b Value) Value {
 	}
 
 	if a.t == v_string && b.t == v_string {
-		return V(a.v.(string) > b.v.(string))
+		return V(a.V.(string) > b.V.(string))
 	}
 
 	var x, y float64
 
 	if a.t == v_float {
-		x = a.v.(float64)
+		x = a.V.(float64)
 	} else {
-		x = float64(a.v.(int64))
+		x = float64(a.V.(int64))
 	}
 
 	if b.t == v_float {
-		y = b.v.(float64)
+		y = b.V.(float64)
 	} else {
-		y = float64(b.v.(int64))
+		y = float64(b.V.(int64))
 	}
 
 	return V(x > y)
@@ -161,21 +161,21 @@ func Ge(a Value, b Value) Value {
 	}
 
 	if a.t == v_string && b.t == v_string {
-		return V(a.v.(string) >= b.v.(string))
+		return V(a.V.(string) >= b.V.(string))
 	}
 
 	var x, y float64
 
 	if a.t == v_float {
-		x = a.v.(float64)
+		x = a.V.(float64)
 	} else {
-		x = float64(a.v.(int64))
+		x = float64(a.V.(int64))
 	}
 
 	if b.t == v_float {
-		y = b.v.(float64)
+		y = b.V.(float64)
 	} else {
-		y = float64(b.v.(int64))
+		y = float64(b.V.(int64))
 	}
 
 	return V(x >= y)
@@ -188,21 +188,21 @@ func Lt(a Value, b Value) Value {
 	}
 
 	if a.t == v_string && b.t == v_string {
-		return V(a.v.(string) < b.v.(string))
+		return V(a.V.(string) < b.V.(string))
 	}
 
 	var x, y float64
 
 	if a.t == v_float {
-		x = a.v.(float64)
+		x = a.V.(float64)
 	} else {
-		x = float64(a.v.(int64))
+		x = float64(a.V.(int64))
 	}
 
 	if b.t == v_float {
-		y = b.v.(float64)
+		y = b.V.(float64)
 	} else {
-		y = float64(b.v.(int64))
+		y = float64(b.V.(int64))
 	}
 
 	return V(x < y)
@@ -215,21 +215,21 @@ func Le(a Value, b Value) Value {
 	}
 
 	if a.t == v_string && b.t == v_string {
-		return V(a.v.(string) <= b.v.(string))
+		return V(a.V.(string) <= b.V.(string))
 	}
 
 	var x, y float64
 
 	if a.t == v_float {
-		x = a.v.(float64)
+		x = a.V.(float64)
 	} else {
-		x = float64(a.v.(int64))
+		x = float64(a.V.(int64))
 	}
 
 	if b.t == v_float {
-		y = b.v.(float64)
+		y = b.V.(float64)
 	} else {
-		y = float64(b.v.(int64))
+		y = float64(b.V.(int64))
 	}
 
 	return V(x <= y)
@@ -242,21 +242,21 @@ func Ne(a Value, b Value) Value {
 	}
 
 	if a.t == v_string && b.t == v_string {
-		return V(a.v.(string) != b.v.(string))
+		return V(a.V.(string) != b.V.(string))
 	}
 
 	var x, y float64
 
 	if a.t == v_float {
-		x = a.v.(float64)
+		x = a.V.(float64)
 	} else {
-		x = float64(a.v.(int64))
+		x = float64(a.V.(int64))
 	}
 
 	if b.t == v_float {
-		y = b.v.(float64)
+		y = b.V.(float64)
 	} else {
-		y = float64(b.v.(int64))
+		y = float64(b.V.(int64))
 	}
 
 	return V(!floatEquals(x, y))

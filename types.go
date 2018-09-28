@@ -1,16 +1,12 @@
 package lisper
 
-import (
-	"fmt"
-)
-
 const (
 	a_value = iota
 	a_list
 )
 
 type Atom struct {
-	v interface{}
+	V interface{} `json:"a"`
 	t int
 }
 
@@ -21,12 +17,12 @@ func A(x interface{}) Atom {
 	case List:
 		return Atom{v, a_list}
 	default:
-		panic(fmt.Sprintf("Unsupported Atom type [%T]", x))
+		return Atom{V(v), a_value}
 	}
 }
 
 type List struct {
-	v []Atom
+	V []Atom `json:"l"`
 }
 
 func L(items ...interface{}) List {
@@ -44,11 +40,18 @@ func L(items ...interface{}) List {
 }
 
 func (l *List) Append(items ...interface{}) {
-	if l.v == nil {
-		l.v = []Atom{}
+	if l.V == nil {
+		l.V = []Atom{}
 	}
 
 	for _, i := range items {
-		l.v = append(l.v, A(i))
+		// switch v := i.(type) {
+		// case List:
+		// 	for _, k := range v.V {
+		// 		l.V = append(l.V, k)
+		// 	}
+		// default:
+		l.V = append(l.V, A(i))
+		// }
 	}
 }

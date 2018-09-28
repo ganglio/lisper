@@ -15,5 +15,5 @@ func TestListAppend(t *testing.T) {
 
 	l.Append(V(1), V(2), V(33))
 
-	assert.Equal(t, l, List{v: []Atom{A(V(1)), A(V(2)), A(V(33))}})
+	assert.Equal(t, l, L(V(1), V(2), V(33)))
 }

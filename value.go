@@ -2,6 +2,7 @@ package lisper
 
 import (
 	"fmt"
+	"strconv"
 )
 
 const (
@@ -13,7 +14,7 @@ const (
 
 // Value is a generic value
 type Value struct {
-	v interface{}
+	V interface{} `json:"v"`
 	t int
 }
 
@@ -27,6 +28,12 @@ func V(x interface{}) Value {
 	case float64:
 		return Value{v, v_float}
 	case string:
+		if i, e := strconv.ParseInt(v, 10, 64); e == nil {
+			return Value{i, v_int}
+		}
+		if f, e := strconv.ParseFloat(v, 64); e == nil {
+			return Value{f, v_float}
+		}
 		return Value{v, v_string}
 	case bool:
 		return Value{v, v_bool}

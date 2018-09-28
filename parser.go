@@ -1,20 +1,26 @@
 package lisper
 
-import (
-	"encoding/json"
-)
+func Parse(tokens *Tokens) (l List) {
+	if len(tokens.t) == 0 {
+		panic("unexpected EOF")
+	}
 
-type Lisper struct{}
-
-func NewLisper() *Lisper {
-	return &Lisper{}
+	for t, last := tokens.Next(); !last; t, last = tokens.Next() {
+		if t == "(" {
+			l.Append(Parse(tokens))
+		} else if t == ")" {
+			return
+		} else {
+			l.Append(t)
+		}
+	}
+	return
 }
 
-func (l *Lisper) Parse(r string) error {
-	out := tokenizer(r)
-	exp := parser(out)
-
-	_, _ = json.Marshal(exp)
-
-	return nil
+func floatEquals(a, b float64) bool {
+	var eps = 0.00000001
+	if (a-b) < eps && (b-a) < eps {
+		return true
+	}
+	return false
 }
