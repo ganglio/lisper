@@ -17,3 +17,12 @@ func TestValue(t *testing.T) {
 	assert.Equal(t, s.t, v_string)
 	assert.Equal(t, b.t, v_bool)
 }
+
+func TestValuePanic(t *testing.T) {
+	defer func() {
+		r := recover()
+		assert.NotEqual(t, r, nil)
+	}()
+
+	_ = V(map[int]string{2: "pesco"})
+}

@@ -45,13 +45,11 @@ func (l *List) Append(items ...interface{}) {
 	}
 
 	for _, i := range items {
-		// switch v := i.(type) {
-		// case List:
-		// 	for _, k := range v.V {
-		// 		l.V = append(l.V, k)
-		// 	}
-		// default:
-		l.V = append(l.V, A(i))
-		// }
+		switch v := i.(type) {
+		case Atom:
+			l.V = append(l.V, v)
+		default:
+			l.V = append(l.V, A(v))
+		}
 	}
 }

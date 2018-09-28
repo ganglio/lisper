@@ -23,3 +23,12 @@ func TestParserComplex(t *testing.T) {
 
 	assert.Equal(t, p1, p2)
 }
+
+func TestParserPanic(t *testing.T) {
+	defer func() {
+		r := recover()
+		assert.NotEqual(t, r, nil)
+	}()
+
+	_ = Parse(&Tokens{[]string{}, 0})
+}
