@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
+// Tokens is a list of tokens and the counter for the current one
 type Tokens struct {
 	t []string
 	c int
 }
 
+// Next returns the next token
 func (t *Tokens) Next() (string, bool) {
 	if t.c >= len(t.t) {
 		return "", true
@@ -19,6 +21,7 @@ func (t *Tokens) Next() (string, bool) {
 	return toc, false
 }
 
+// Tokenize converts a string to a sequence of tokens. TODO: Improve the code as it's not massively elegant
 func Tokenize(s string) Tokens {
 
 	if strings.HasPrefix(s, "(") && strings.HasSuffix(s, ")") {
