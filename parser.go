@@ -1,5 +1,6 @@
 package lisper
 
+// Parse generate the AST from a provided Tokens struct
 func Parse(tokens *Tokens) (l List) {
 	if len(tokens.t) == 0 {
 		panic("unexpected EOF")

@@ -1,8 +1,8 @@
 package lisper
 
 const (
-	a_value = iota
-	a_list
+	aValue = iota
+	aList
 )
 
 // Atom is an atomic AST element it can be either a List or a Value
@@ -15,11 +15,11 @@ type Atom struct {
 func A(x interface{}) Atom {
 	switch v := x.(type) {
 	case Value:
-		return Atom{v, a_value}
+		return Atom{v, aValue}
 	case List:
-		return Atom{v, a_list}
+		return Atom{v, aList}
 	default:
-		return Atom{V(v), a_value}
+		return Atom{V(v), aValue}
 	}
 }
 

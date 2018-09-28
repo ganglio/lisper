@@ -6,10 +6,10 @@ import (
 )
 
 const (
-	v_int = iota
-	v_float
-	v_string
-	v_bool
+	vInt = iota
+	vFloat
+	vString
+	vBool
 )
 
 // Value is a generic value
@@ -22,21 +22,21 @@ type Value struct {
 func V(x interface{}) Value {
 	switch v := x.(type) {
 	case int:
-		return Value{int64(v), v_int}
+		return Value{int64(v), vInt}
 	case int64:
-		return Value{int64(v), v_int}
+		return Value{int64(v), vInt}
 	case float64:
-		return Value{v, v_float}
+		return Value{v, vFloat}
 	case string:
 		if i, e := strconv.ParseInt(v, 10, 64); e == nil {
-			return Value{i, v_int}
+			return Value{i, vInt}
 		}
 		if f, e := strconv.ParseFloat(v, 64); e == nil {
-			return Value{f, v_float}
+			return Value{f, vFloat}
 		}
-		return Value{v, v_string}
+		return Value{v, vString}
 	case bool:
-		return Value{v, v_bool}
+		return Value{v, vBool}
 	default:
 		panic(fmt.Sprintf("Unsupported Value type [%T]", x))
 	}
