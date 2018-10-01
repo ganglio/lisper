@@ -10,6 +10,7 @@ const (
 	vFloat
 	vString
 	vBool
+	vList
 )
 
 // Value is a generic value
@@ -27,7 +28,12 @@ func V(x interface{}) Value {
 		return Value{int64(v), vInt}
 	case float64:
 		return Value{v, vFloat}
+	case Value:
+		return v
+	case List:
+		return Value{v, vList}
 	case string:
+
 		if i, e := strconv.ParseInt(v, 10, 64); e == nil {
 			return Value{i, vInt}
 		}

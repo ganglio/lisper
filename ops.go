@@ -1,9 +1,18 @@
 package lisper
 
+type Op func(args ...Value) Value
+
 // Add calculates the sum between two values
-func Add(a Value, b Value) (r Value) {
+func Add(args ...Value) (r Value) {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t == vString || b.t == vString {
-		panic("Unsupported operands")
+		return V(a.V.(string) + b.V.(string))
 	}
 
 	switch a.t {
@@ -27,7 +36,14 @@ func Add(a Value, b Value) (r Value) {
 }
 
 // Sub calculates the difference between two values
-func Sub(a Value, b Value) (r Value) {
+func Sub(args ...Value) (r Value) {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t == vString || b.t == vString {
 		panic("Unsupported operands")
 	}
@@ -53,7 +69,13 @@ func Sub(a Value, b Value) (r Value) {
 }
 
 // Mul calculates the product between two values
-func Mul(a Value, b Value) (r Value) {
+func Mul(args ...Value) (r Value) {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
 
 	if a.t == vString || b.t == vString {
 		panic("Unsupported operands")
@@ -80,7 +102,13 @@ func Mul(a Value, b Value) (r Value) {
 }
 
 // Div calculates the division between two values
-func Div(a Value, b Value) (r Value) {
+func Div(args ...Value) (r Value) {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
 
 	if a.t == vString || b.t == vString {
 		panic("Unsupported operands")
@@ -115,7 +143,14 @@ func Div(a Value, b Value) (r Value) {
 }
 
 // Eq checks a == b
-func Eq(a Value, b Value) Value {
+func Eq(args ...Value) Value {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t != b.t {
 		return FALSE
 	}
@@ -128,7 +163,14 @@ func Eq(a Value, b Value) Value {
 }
 
 // Gt checks a > b
-func Gt(a Value, b Value) Value {
+func Gt(args ...Value) Value {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t != b.t && (a.t == vString || b.t == vString) {
 		return FALSE
 	}
@@ -155,7 +197,14 @@ func Gt(a Value, b Value) Value {
 }
 
 // Ge checks a >= b
-func Ge(a Value, b Value) Value {
+func Ge(args ...Value) Value {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t != b.t && (a.t == vString || b.t == vString) {
 		return FALSE
 	}
@@ -182,7 +231,14 @@ func Ge(a Value, b Value) Value {
 }
 
 // Lt checks a < b
-func Lt(a Value, b Value) Value {
+func Lt(args ...Value) Value {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t != b.t && (a.t == vString || b.t == vString) {
 		return FALSE
 	}
@@ -209,7 +265,14 @@ func Lt(a Value, b Value) Value {
 }
 
 // Le checks a <= b
-func Le(a Value, b Value) Value {
+func Le(args ...Value) Value {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t != b.t && (a.t == vString || b.t == vString) {
 		return FALSE
 	}
@@ -236,7 +299,14 @@ func Le(a Value, b Value) Value {
 }
 
 // Ne checks a != b
-func Ne(a Value, b Value) Value {
+func Ne(args ...Value) Value {
+
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
 	if a.t != b.t {
 		return TRUE
 	}
@@ -260,4 +330,9 @@ func Ne(a Value, b Value) Value {
 	}
 
 	return V(!floatEquals(x, y))
+}
+
+// Sym adds a new Symbol to the current running Environment
+func Sym(args ...Value) Value {
+	return V(3)
 }
