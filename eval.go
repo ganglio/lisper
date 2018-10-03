@@ -1,6 +1,6 @@
 package lisper
 
-import "fmt"
+// import "fmt"
 
 func Eval(s string) Value {
 	t := Tokenize(s)
@@ -13,7 +13,6 @@ func eval(l List) (r Value) {
 	ch := l.C()
 
 	for v := range ch {
-		fmt.Printf("v: %#v %#v\n", v, PLUS)
 		switch v.t {
 		case vList:
 			r = eval(v.V.(List))
