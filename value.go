@@ -12,6 +12,7 @@ const (
 	vFloat
 	vString
 	vList
+	vSymbol
 )
 
 // Value is a generic value
@@ -50,7 +51,11 @@ func V(x interface{}) Value {
 		if f, e := strconv.ParseFloat(v, 64); e == nil {
 			return Value{f, vFloat}
 		}
-		return Value{v, vString}
+		if v[0] == '"' && v[len(v)-1] == '"' {
+			return Value{v[1 : len(v)-1], vString}
+		}
+
+		return Value{v, vSymbol}
 
 	case bool:
 		return Value{v, vBool}

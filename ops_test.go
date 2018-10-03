@@ -1,6 +1,7 @@
 package lisper
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,7 +13,9 @@ func TestOpAdd(t *testing.T) {
 	assert.Equal(t, Add(V(1), V(2.2)), V(3.2))
 	assert.Equal(t, Eq(Add(V(1.1), V(2.2)), V(3.3)), TRUE)
 
-	assert.Equal(t, Add(V("a"), V("b")), V("ab"))
+	fmt.Printf("%#v", Add(V(`"a"`), V(`"b"`)))
+
+	assert.Equal(t, Add(V(`"a"`), V(`"b"`)), V(`"ab"`))
 }
 
 func TestOpAddFewOps(t *testing.T) {
@@ -35,7 +38,7 @@ func TestOpSub(t *testing.T) {
 	assert.Equal(t, Eq(Sub(V(1), V(1.1)), V(-0.1)), TRUE)
 	assert.Equal(t, Eq(Sub(V(1.1), V(1)), V(0.1)), TRUE)
 
-	_ = Sub(V("a"), V("b"))
+	_ = Sub(V(`"a"`), V(`"b"`))
 }
 
 func TestOpSubFewOps(t *testing.T) {
@@ -56,7 +59,7 @@ func TestOpMul(t *testing.T) {
 	assert.Equal(t, Eq(Mul(V(2), V(3.4)), V(6.8)), TRUE)
 	assert.Equal(t, Eq(Mul(V(2.3), V(3)), V(6.9)), TRUE)
 
-	_ = Mul(V("a"), V("b"))
+	_ = Mul(V(`"a"`), V(`"b"`))
 }
 
 func TestOpMulFewOps(t *testing.T) {
@@ -95,7 +98,7 @@ func TestValDivStrings(t *testing.T) {
 		assert.Equal(t, recover(), "Unsupported operands")
 	}()
 
-	_ = Div(V("a"), V("b"))
+	_ = Div(V(`"a"`), V(`"b"`))
 }
 
 func TestOpDivFewOps(t *testing.T) {
@@ -114,7 +117,8 @@ func TestOpEq(t *testing.T) {
 	assert.Equal(t, Eq(V(1), V(2)), FALSE)
 	assert.Equal(t, Eq(V(1), V(2.2)), FALSE)
 	assert.Equal(t, Eq(V(1.2), V(1.2)), TRUE)
-	assert.Equal(t, Eq(V("string1"), V("string1")), TRUE)
+	assert.Equal(t, Eq(V(`"string1"`), V(`"string1"`)), TRUE)
+	assert.Equal(t, Eq(V("s1"), V("s1")), TRUE)
 
 	_ = Eq(V(1))
 }
@@ -126,7 +130,7 @@ func TestOpNe(t *testing.T) {
 
 	assert.Equal(t, Ne(V(33), V(34)), TRUE)
 	assert.Equal(t, Ne(V(33), V(34.3)), TRUE)
-	assert.Equal(t, Ne(V("a"), V("b")), TRUE)
+	assert.Equal(t, Ne(V(`"a"`), V(`"b"`)), TRUE)
 	assert.Equal(t, Ne(V(33.3), V(34.3)), TRUE)
 	assert.Equal(t, Ne(V(33.3), V(34.3)), TRUE)
 
@@ -138,11 +142,11 @@ func TestOpGt(t *testing.T) {
 		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
-	assert.Equal(t, Gt(V("string"), V(33)), FALSE)
+	assert.Equal(t, Gt(V(`"string"`), V(33)), FALSE)
 	assert.Equal(t, Gt(V(34), V(33)), TRUE)
 	assert.Equal(t, Gt(V(34.3), V(33)), TRUE)
 	assert.Equal(t, Gt(V(34), V(33.4)), TRUE)
-	assert.Equal(t, Gt(V("bbb"), V("aaa")), TRUE)
+	assert.Equal(t, Gt(V(`"bbb"`), V(`"aaa"`)), TRUE)
 
 	_ = Gt(V(1))
 }
@@ -157,8 +161,8 @@ func TestOpGe(t *testing.T) {
 	assert.Equal(t, Ge(V(34.3), V(34)), TRUE)
 	assert.Equal(t, Ge(V(34), V(33.3)), TRUE)
 	assert.Equal(t, Ge(V(34.3), V(33.3)), TRUE)
-	assert.Equal(t, Ge(V("bbb"), V("aaa")), TRUE)
-	assert.Equal(t, Ge(V(33), V("bbb")), FALSE)
+	assert.Equal(t, Ge(V(`"bbb"`), V(`"aaa"`)), TRUE)
+	assert.Equal(t, Ge(V(33), V(`"bbb"`)), FALSE)
 
 	_ = Ge(V(1))
 }
@@ -172,8 +176,8 @@ func TestOpLt(t *testing.T) {
 	assert.Equal(t, Lt(V(33.3), V(34)), TRUE)
 	assert.Equal(t, Lt(V(33), V(34.3)), TRUE)
 	assert.Equal(t, Lt(V(33.3), V(34.3)), TRUE)
-	assert.Equal(t, Lt(V("aaa"), V("bbb")), TRUE)
-	assert.Equal(t, Lt(V(33), V("bbb")), FALSE)
+	assert.Equal(t, Lt(V(`"aaa"`), V(`"bbb"`)), TRUE)
+	assert.Equal(t, Lt(V(33), V(`"bbb"`)), FALSE)
 
 	_ = Lt(V(1))
 }
@@ -188,8 +192,8 @@ func TestOpLe(t *testing.T) {
 	assert.Equal(t, Le(V(33.3), V(34)), TRUE)
 	assert.Equal(t, Le(V(33), V(34.3)), TRUE)
 	assert.Equal(t, Le(V(33.3), V(34.3)), TRUE)
-	assert.Equal(t, Le(V("aaa"), V("bbb")), TRUE)
-	assert.Equal(t, Le(V(33), V("bbb")), FALSE)
+	assert.Equal(t, Le(V(`"aaa"`), V(`"bbb"`)), TRUE)
+	assert.Equal(t, Le(V(33), V(`"bbb"`)), FALSE)
 
 	_ = Le(V(1))
 }
@@ -245,4 +249,18 @@ func TestIf(t *testing.T) {
 	assert.Equal(t, If(FALSE, V(1)), NIL)
 
 	_ = If(TRUE, V(1), V(2), V(3))
+}
+
+func TestDefine(t *testing.T) {
+	_ = Define(V("r"), V(33))
+
+	assert.Equal(t, Sym[V("r")], V(33))
+}
+
+func TestDefineArgCount(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Invalid number of operands")
+	}()
+
+	_ = Define(V("a"))
 }

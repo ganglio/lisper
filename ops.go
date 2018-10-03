@@ -14,7 +14,7 @@ func Add(args ...Value) (r Value) {
 	a, b := args[0], args[1]
 
 	if a.t == vString || b.t == vString {
-		return V(a.V.(string) + b.V.(string))
+		return V(`"` + a.V.(string) + b.V.(string) + `"`)
 	}
 
 	switch a.t {
@@ -392,5 +392,17 @@ func If(args ...Value) Value {
 		return args[2]
 	}
 
+	return NIL
+}
+
+// Define allows the definition of a new symbol
+func Define(args ...Value) Value {
+	if len(args) != 2 {
+		panic("Invalid number of operands")
+	}
+
+	a, b := args[0], args[1]
+
+	Sym[a] = b
 	return NIL
 }
