@@ -11,4 +11,5 @@ var Env = map[Value]Op{
 	LE:    Le,
 	EQ:    Eq,
 	NE:    Ne,
+	IF:    If,
 }

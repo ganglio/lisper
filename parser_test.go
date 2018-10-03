@@ -26,8 +26,7 @@ func TestParserComplex(t *testing.T) {
 
 func TestParserPanic(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "unexpected EOF")
 	}()
 
 	_ = Parse(&Tokens{[]string{}, 0})

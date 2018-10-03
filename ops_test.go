@@ -17,8 +17,7 @@ func TestOpAdd(t *testing.T) {
 
 func TestOpAddFewOps(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	_ = Add(V(1))
@@ -26,8 +25,7 @@ func TestOpAddFewOps(t *testing.T) {
 
 func TestOpSub(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Unsupported operands")
 	}()
 
 	assert.Equal(t, Sub(V(1), V(1)), V(0))
@@ -42,8 +40,7 @@ func TestOpSub(t *testing.T) {
 
 func TestOpSubFewOps(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	_ = Sub(V(1))
@@ -51,8 +48,7 @@ func TestOpSubFewOps(t *testing.T) {
 
 func TestOpMul(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Unsupported operands")
 	}()
 
 	assert.Equal(t, Mul(V(2), V(3)), V(6))
@@ -65,8 +61,7 @@ func TestOpMul(t *testing.T) {
 
 func TestOpMulFewOps(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	_ = Mul(V(1))
@@ -81,24 +76,23 @@ func TestOpDiv(t *testing.T) {
 
 func TestValDivByZeroInt(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Divide by zero")
 	}()
+
 	_ = Div(V(1), V(0))
 }
 
 func TestValDivByZeroFloat(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Divide by zero")
 	}()
+
 	_ = Div(V(1), V(0.0))
 }
 
 func TestValDivStrings(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Unsupported operands")
 	}()
 
 	_ = Div(V("a"), V("b"))
@@ -106,8 +100,7 @@ func TestValDivStrings(t *testing.T) {
 
 func TestOpDivFewOps(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	_ = Div(V(1))
@@ -115,8 +108,7 @@ func TestOpDivFewOps(t *testing.T) {
 
 func TestOpEq(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	assert.Equal(t, Eq(V(1), V(2)), FALSE)
@@ -129,8 +121,7 @@ func TestOpEq(t *testing.T) {
 
 func TestOpNe(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	assert.Equal(t, Ne(V(33), V(34)), TRUE)
@@ -144,8 +135,7 @@ func TestOpNe(t *testing.T) {
 
 func TestOpGt(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	assert.Equal(t, Gt(V("string"), V(33)), FALSE)
@@ -159,8 +149,7 @@ func TestOpGt(t *testing.T) {
 
 func TestOpGe(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	assert.Equal(t, Ge(V(33), V(33)), TRUE)
@@ -176,8 +165,7 @@ func TestOpGe(t *testing.T) {
 
 func TestOpLt(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	assert.Equal(t, Lt(V(33), V(34)), TRUE)
@@ -192,8 +180,7 @@ func TestOpLt(t *testing.T) {
 
 func TestOpLe(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Invalid number of operands")
 	}()
 
 	assert.Equal(t, Le(V(33), V(33)), TRUE)
@@ -205,4 +192,57 @@ func TestOpLe(t *testing.T) {
 	assert.Equal(t, Le(V(33), V("bbb")), FALSE)
 
 	_ = Le(V(1))
+}
+
+func TestFirst(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Invalid number of operands")
+	}()
+
+	assert.Equal(t, First(V(L(V(1), V(2)))), V(1))
+	assert.Equal(t, First(V(L())), NIL)
+
+	_ = First(
+		V(L(V(1))),
+		V(L(V(2))),
+	)
+}
+
+func TestFirstNotList(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Argument must be a list")
+	}()
+
+	_ = First(V(1))
+}
+
+func TestRest(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Invalid number of operands")
+	}()
+
+	assert.Equal(t, Rest(V(L(V(1), V(2)))), V(L(V(2))))
+	assert.Equal(t, Rest(V(L(V(1)))), NIL)
+
+	_ = Rest(V(L(V(1))), V(L(V(2))))
+}
+
+func TestRestNotList(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Argument must be a list")
+	}()
+
+	_ = Rest(V(1))
+}
+
+func TestIf(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Invalid number of operands")
+	}()
+
+	assert.Equal(t, If(TRUE, V(1), V(2)), V(1))
+	assert.Equal(t, If(FALSE, V(1), V(2)), V(2))
+	assert.Equal(t, If(FALSE, V(1)), NIL)
+
+	_ = If(TRUE, V(1), V(2), V(3))
 }

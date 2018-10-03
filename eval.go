@@ -1,7 +1,7 @@
 package lisper
 
 import (
-// "fmt"
+	"fmt"
 )
 
 func Eval(s string) Value {
@@ -20,9 +20,14 @@ func eval(l List) (r Value) {
 			r = eval(v.V.(List))
 		default:
 			if op, ok := Env[v]; ok {
-				o1 := eval(L(<-ch))
-				o2 := eval(L(<-ch))
-				r = op(o1, o2)
+				fmt.Printf("op %#v\n", v)
+				ops := []Value{}
+				for o := range ch {
+					fmt.Printf("arg %#v\n", o)
+					ops = append(ops, eval(L(o)))
+				}
+				fmt.Printf("Ops %#v\n", ops)
+				r = op(ops...)
 			} else {
 				r = v
 			}

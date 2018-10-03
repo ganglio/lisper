@@ -28,8 +28,7 @@ func TestValue(t *testing.T) {
 
 func TestValuePanic(t *testing.T) {
 	defer func() {
-		r := recover()
-		assert.NotEqual(t, r, nil)
+		assert.Equal(t, recover(), "Unsupported Value type [map[int]string]")
 	}()
 
 	_ = V(map[int]string{2: "pesco"})
