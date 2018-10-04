@@ -1,7 +1,6 @@
 package lisper
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,8 +11,6 @@ func TestOpAdd(t *testing.T) {
 	assert.Equal(t, Add(V(1.1), V(2)), V(3.1))
 	assert.Equal(t, Add(V(1), V(2.2)), V(3.2))
 	assert.Equal(t, Eq(Add(V(1.1), V(2.2)), V(3.3)), TRUE)
-
-	fmt.Printf("%#v", Add(V(`"a"`), V(`"b"`)))
 
 	assert.Equal(t, Add(V(`"a"`), V(`"b"`)), V(`"ab"`))
 }
