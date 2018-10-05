@@ -1,8 +1,21 @@
 package lisper
 
-// import "fmt"
+import (
+	"path/filepath"
+	"reflect"
+	"runtime"
+	"strings"
+)
 
 type Op func(args ...Value) Value
+
+func (o Op) Name() string {
+	r := reflect.ValueOf(o).Pointer()
+	nameFull := runtime.FuncForPC(r).Name()
+	nameEnd := filepath.Ext(nameFull)
+	name := strings.TrimPrefix(nameEnd, ".")
+	return name
+}
 
 // Add calculates the sum between two values
 func Add(args ...Value) (r Value) {
@@ -402,6 +415,10 @@ func Define(args ...Value) Value {
 	}
 
 	a, b := args[0], args[1]
+
+	if a.t != vSymbol {
+		panic("Invalid operand type")
+	}
 
 	Sym[a] = b
 	return NIL

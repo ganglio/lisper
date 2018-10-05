@@ -15,4 +15,6 @@ var Env = map[Value]Op{
 	DEFINE: Define,
 }
 
-var Sym = map[Value]Value{}
+var Sym = map[Value]Value{
+	PI: V(3.141592654),
+}

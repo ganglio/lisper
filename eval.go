@@ -1,6 +1,6 @@
 package lisper
 
-// import "fmt"
+import "fmt"
 
 func Eval(s string) Value {
 	t := Tokenize(s)
@@ -8,7 +8,29 @@ func Eval(s string) Value {
 	return eval(p)
 }
 
+func resolve(op Op, args ...Value) (r []Value) {
+	switch op.Name() {
+	case "Define":
+		first := true
+		for _, v := range args {
+			if first {
+				r = append(r, v)
+				first = false
+			} else {
+				r = append(r, eval(L(v)))
+			}
+		}
+	default:
+		for _, v := range args {
+			r = append(r, eval(L(v)))
+		}
+	}
+	return
+}
+
 func eval(l List) (r Value) {
+
+	fmt.Printf("SYM:%+v\n", Sym)
 
 	ch := l.C()
 
@@ -20,11 +42,13 @@ func eval(l List) (r Value) {
 			if op, ok := Env[v]; ok {
 				ops := []Value{}
 				for o := range ch {
-					ops = append(ops, eval(L(o)))
+					ops = append(ops, o)
 				}
-				r = op(ops...)
+				r = op(resolve(op, ops...)...)
 			} else {
-				r = Sym[v]
+				if r, ok = Sym[v]; !ok {
+					r = v
+				}
 			}
 		default:
 			r = v

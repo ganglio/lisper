@@ -250,8 +250,10 @@ func TestIf(t *testing.T) {
 
 func TestDefine(t *testing.T) {
 	_ = Define(V("r"), V(33))
-
 	assert.Equal(t, Sym[V("r")], V(33))
+
+	_ = Define(V("r"), V(34))
+	assert.Equal(t, Sym[V("r")], V(34))
 }
 
 func TestDefineArgCount(t *testing.T) {
@@ -260,4 +262,12 @@ func TestDefineArgCount(t *testing.T) {
 	}()
 
 	_ = Define(V("a"))
+}
+
+func TestDefineOpType(t *testing.T) {
+	defer func() {
+		assert.Equal(t, recover(), "Invalid operand type")
+	}()
+
+	_ = Define(V(3), V(4))
 }

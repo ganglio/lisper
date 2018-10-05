@@ -15,6 +15,7 @@ var (
 	IF     = V("if")
 	DEFINE = V("define")
 	DOT    = V(".")
+	PI     = V("PI")
 	TRUE   = V(true)
 	FALSE  = V(false)
 	NIL    = V(nil)
