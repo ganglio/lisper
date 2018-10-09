@@ -36,6 +36,7 @@ func (l *List) Append(items ...interface{}) {
 	}
 }
 
+// C returns a channel emitting all the values in the list. Handy to iterate over the list.
 func (l *List) C() <-chan Value {
 	ch := make(chan Value)
 	go func() {

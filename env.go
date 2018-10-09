@@ -1,5 +1,6 @@
 package lisper
 
+// Env contains the Operators defined by default
 var Env = map[Value]Op{
 	MINUS:  Sub,
 	PLUS:   Add,
@@ -15,6 +16,7 @@ var Env = map[Value]Op{
 	DEFINE: Define,
 }
 
+// Sym contains the Symbols defined by default
 var Sym = map[Value]Value{
 	PI: V(3.141592654),
 }

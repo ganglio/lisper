@@ -2,6 +2,7 @@ package lisper
 
 import "fmt"
 
+// Eval evaluates a string containing lisp code and returns a Value
 func Eval(s string) Value {
 	t := Tokenize(s)
 	p := Parse(&t)

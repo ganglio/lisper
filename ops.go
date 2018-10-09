@@ -7,8 +7,10 @@ import (
 	"strings"
 )
 
+// Op is the basic Operator type
 type Op func(args ...Value) Value
 
+// Name returns the name of the current Operator
 func (o Op) Name() string {
 	r := reflect.ValueOf(o).Pointer()
 	nameFull := runtime.FuncForPC(r).Name()
